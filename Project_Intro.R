@@ -5,9 +5,9 @@ library (ggplot2)
 
 
 here()
-WQ_all<-read.csv("SWMP_monthlyWQ.csv")
-NUT_all<-read.csv("SWMP_monthlyNUT.csv")
-MET_all<-read.csv("SWMP_monthlyMET.csv")
+WQ_all<-read.csv("Data/SWMP_monthlyWQ.csv")
+NUT_all<-read.csv("Data/SWMP_monthlyNUT.csv")
+MET_all<-read.csv("Data/SWMP_monthlyMET.csv")
 
 
 wq_lks <- WQ_all[grep("^lks", WQ_all$station), ]
