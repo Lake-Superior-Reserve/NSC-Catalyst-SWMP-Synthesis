@@ -53,18 +53,6 @@ write.csv(wq_gtm,"wq_gtm.csv")
 write.csv(wq_cbm,"wq_cbm.csv") 
 write.csv(wq_pdb,"wq_pdb.csv") 
 
-
-write.csv(wq_lks,"wq_lks.csv")
-wq_apa
-wq_grb 
-wq_rkb 
-wq_sos 
-wq_niw 
-wq_gtm 
-wq_cbm 
-wq_pdb 
-
-
 write.csv(nut_lks,"nut_lks.csv")
 write.csv(nut_apa,"nut_apa.csv")
 write.csv(nut_grb,"nut_grb.csv")
