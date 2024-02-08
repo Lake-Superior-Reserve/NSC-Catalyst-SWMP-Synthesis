@@ -1,13 +1,19 @@
 # Script to explore your reserve's data
 # Zoo 955, Spring 2024
 
+###########################
+# Begin user input section
+
 # Set the working directory to wherever this script is located
 setwd("/Users/paul/Dropbox/Hanson/Teaching/955 2024")
 
 # Identify the meteorological (met), nutrient (nut), and water quality (WQ) data files for your reserve
-metFile = "./LKS/met_lks.csv"
-nutFile = "./LKS/nut_lks.csv"
-wqFile = "./LKS/wq_lks.csv"
+metFile = "./APA/met_APA.csv"
+nutFile = "./APA/nut_APA.csv"
+wqFile  = "./APA/wq_APA.csv"
+
+# End user input section
+###########################
 
 # Load the data into separate data frames
 datMet = read.csv(metFile)
@@ -30,7 +36,7 @@ cat('Unique met stations: ',uMet,'\n')
 cat('Unique nut stations: ',uNut,'\n')
 cat('Unique WQ  stations: ',uWQ,'\n')
 
-# Cycle through the met data and plot
+# Cycle through the met data and plot in natural order
 par(mfrow=c(3,1),lend=2,mai = c(0.25,0.75, 0.08, 0.05),oma = c(2,1,0.2,0.2), cex = 0.8)
 
 print(paste('Generating ', (dim(datMet)[2]-4-1)/3, ' plots...',sep=""))
@@ -56,12 +62,17 @@ for (i in 5:dim(datNut)[2]){
   thisVar = colnames(datNut[i])
   if (thisVar != 'YearFrac'){ # Only plot if it's actually data
     # Cycle through the sites
+    myXLim = c(min(datNut$YearFrac,na.rm=TRUE),max(datNut$YearFrac,na.rm=TRUE))
+    myYLim = c(min(datNut[,i],na.rm=TRUE),max(datNut[,i],na.rm=TRUE))
+    if (is.infinite(myYLim)){ # In this case, there are no data and min/max produces Inf
+      myYLim = c(0,0)
+    }
     for (j in 1:length(uNut)){
       #thisNut = uNut[i]
       whichRows = which(datNut$station==uNut[j])
       if (j==1){
         plot(datNut$YearFrac[whichRows],datNut[whichRows,i],type='l',col=myCol[j],
-         xlab="Year",ylab=paste("Nut: ", thisVar,sep=""))#,main=paste('Site ',siteName))
+             xlab="Year",ylab=paste("Nut: ", thisVar,sep=""))#,main=paste('Site ',siteName))
       }else{
         lines(datNut$YearFrac[whichRows],datNut[whichRows,i],col=myCol[j])
       }
@@ -79,15 +90,16 @@ for (i in 5:dim(datWQ)[2]){
   thisVar = colnames(datWQ[i])
   if (thisVar != 'YearFrac'){ # Only plot if it's actually data
     # Cycle through the sites
+    # Set the overall X and Y limits
+    myXLim = c(min(datWQ$YearFrac,na.rm=TRUE),max(datWQ$YearFrac,na.rm=TRUE))
     myYLim = c(min(datWQ[,i],na.rm=TRUE),max(datWQ[,i],na.rm=TRUE))
-    if (is.infinite(myYLim)){
+    if (is.infinite(myYLim)){ # In this case, there are no data and min/max produces Inf
       myYLim = c(0,0)
     }
-    for (j in 1:length(uWQ)){
-      #thisWQ = uWQ[i]
+    for (j in 1:length(uWQ)){ # For each unique site (uWQ), plot the water quality line
       whichRows = which(datWQ$station==uWQ[j])
       if (j==1){
-        plot(datWQ$YearFrac[whichRows],datWQ[whichRows,i],ylim=myYLim,type='l',col=myCol[j],
+        plot(datWQ$YearFrac[whichRows],datWQ[whichRows,i],xlim=myXLim,ylim=myYLim,type='l',col=myCol[j],
              xlab="Year",ylab=paste("WQ: ", thisVar,sep=""))#,main=paste('Site ',siteName))
       }else{
         lines(datWQ$YearFrac[whichRows],datWQ[whichRows,i],col=myCol[j])
