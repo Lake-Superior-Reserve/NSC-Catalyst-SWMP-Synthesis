@@ -15,9 +15,9 @@ library(SWMPr)
 
 ##All files saved in the same github folder, including data downloaded from box
 here()
-wq_lks<-read.csv("Data/wq_lks.csv")
-met_lks<-read.csv("Data/met_lks.csv")
-nut_lks<-read.csv("Data/nut_lks.csv")
+wq_lks<-read.csv("LKS/wq_lks.csv")
+met_lks<-read.csv("LKS/met_lks.csv")
+nut_lks<-read.csv("LKS/nut_lks.csv")
 
 wq_lks_mean<-select(wq_lks,contains(c("station","year","month","mean")))
 met_lks_mean<-select(met_lks,contains(c("station","year","month","mean")))
