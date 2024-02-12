@@ -104,7 +104,7 @@ ggplot(wq_lks_mean_subset)+
 ggplot(wq_lks_mean_subset,aes(x=Date_year,y=value,group=year))+
   geom_boxplot()+
   ylab("")+xlab("")+
-  scale_x_date(date_breaks = "1 year", date_labels =  "%b") +
+  scale_x_date(date_breaks = "1 year", date_labels =  "%Y") +
   facet_wrap(station~variable,scales="free_y")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
@@ -112,7 +112,7 @@ ggplot(wq_lks_mean_subset)+
   geom_boxplot(aes(x=Date_year,y=value,group=year))+
   geom_smooth(aes(x=Date_year,y=value))+
   ylab("")+xlab("")+
-  scale_x_date(date_breaks = "1 year", date_labels =  "%b") +
+  scale_x_date(date_breaks = "1 year", date_labels =  "%Y") +
   facet_wrap(station~variable,scales="free_y")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
