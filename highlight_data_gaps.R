@@ -7,8 +7,8 @@ met_filepath <- 'input_data/met_grb.csv'
 nutrient_filepath <- 'input_data/nut_grb.csv'
 
 reserve_abbr <- 'grb'
-params_of_interest <- c('temp_median', 'turb_median', 'no23f')
-stations_of_interest <- c('gb', 'sq')
+params_of_interest <- c('temp_median', 'turb_median', 'no23f', 'totprcp_total')
+stations_of_interest <- c('gb', 'sq', 'gl')
 
 load_swmp_data <- function(filename, reserve_abbr) {
   read_csv(filename, show_col_types = FALSE) %>% 
