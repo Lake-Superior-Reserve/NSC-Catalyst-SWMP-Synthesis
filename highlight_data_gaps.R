@@ -95,3 +95,109 @@ ggplot(grb_data_of_interest, aes(x = year_frac, y = value)) +
   theme_bw() +
   theme(strip.background = element_blank(),
         strip.text = element_text(face='bold'))
+
+### Now look at gaps with the daily data
+
+source('prepare_daily_and_monthly_data.R')
+
+# Setup all possible combinations of dates that should exist.
+
+# First, do it for monthly nutrient data
+possible_monthly_years <- min(year(swmp_data$date)):max(year(swmp_data$date))
+possible_monthly_months <- 1:12
+possible_monthly_dates <- expand.grid(
+  year = possible_monthly_years,
+  month = possible_monthly_months
+) %>% as_tibble() %>% 
+  mutate(date = sprintf('%s-%02d-15', year, month)) %>% 
+  pull(date)
+possible_monthly_param_dates <- expand.grid(
+  date = possible_monthly_dates,
+  param = unique(swmp_nutrient$param)
+) %>% as_tibble() %>% 
+  mutate(date_param = sprintf('%s__%s', date, param)) %>% 
+  pull(date_param)
+possible_monthly_station_param_dates <- expand.grid(
+  date_param = possible_monthly_param_dates,
+  station = unique(swmp_nutrient$station)
+) %>% as_tibble() %>% 
+  separate(date_param, into = c('date', 'param'), sep = '__', convert=TRUE) %>% 
+  select(station, date, param)
+
+# Now identify all possible daily water quality data
+possible_daily_wq_dates <- seq(min(swmp_data$date), max(swmp_data$date), by = '1 day')
+possible_daily_wq_param_dates <- expand.grid(
+  date = possible_daily_wq_dates,
+  param = unique(swmp_waterquality$param)
+) %>% as_tibble() %>% 
+  mutate(date_param = sprintf('%s__%s', date, param)) %>% 
+  pull(date_param)
+possible_daily_wq_station_param_dates <- expand.grid(
+  date_param = possible_daily_wq_param_dates,
+  station = unique(swmp_waterquality$station)
+) %>% as_tibble() %>% 
+  separate(date_param, into = c('date', 'param'), sep = '__', convert=TRUE) %>% 
+  select(station, date, param)
+
+# Now identify all possible daily meteo data
+possible_daily_met_dates <- seq(min(swmp_data$date), max(swmp_data$date), by = '1 day')
+possible_daily_met_param_dates <- expand.grid(
+  date = possible_daily_met_dates,
+  param = unique(swmp_meteo$param)
+) %>% as_tibble() %>% 
+  mutate(date_param = sprintf('%s__%s', date, param)) %>% 
+  pull(date_param)
+possible_daily_met_station_param_dates <- expand.grid(
+  date_param = possible_daily_met_param_dates,
+  station = unique(swmp_meteo$station)
+) %>% as_tibble() %>% 
+  separate(date_param, into = c('date', 'param'), sep = '__', convert=TRUE) %>% 
+  select(station, date, param)
+
+all_possible_station_param_dates <- possible_monthly_station_param_dates %>% 
+  bind_rows(possible_daily_wq_station_param_dates) %>% 
+  bind_rows(possible_daily_met_station_param_dates) %>% 
+  mutate(date = as.Date(date))
+
+# Which param-dates are missing for GB?
+swmp_missing <- all_possible_station_param_dates %>% 
+  left_join(swmp_data) %>%
+  filter(is.na(value)) %>% 
+  mutate(isWinter = month(date) %in% c(12, 1, 2, 3))
+
+
+# Pick out just one of each of the params
+swmp_data_toPlot <- swmp_data %>% 
+  filter(grepl('median|no23f', param))
+swmp_missing_toPlot <- swmp_missing %>% 
+  filter(grepl('median|no23f', param))
+
+ggplot(swmp_data_toPlot, aes(x = date, y = value)) + 
+  facet_grid(param ~ station, scales='free_y') +
+  geom_vline(data = swmp_missing_toPlot, 
+             aes(xintercept = date, color = isWinter)) +
+  scale_color_manual(values = c(`TRUE` = '#e1edef', `FALSE` = '#c38728')) +
+  geom_point() +
+  theme_bw() +
+  xlab('Date') + ylab('Value') +
+  theme_bw() +
+  theme(strip.background = element_blank(),
+        strip.text = element_text(face='bold'))
+
+# Plot the precip separately
+swmp_data_toPlotPrecip <- swmp_data %>% 
+  filter(station == 'gb-gl')
+swmp_missing_toPlotPrecip <- swmp_missing %>% 
+  filter(station == 'gb-gl')
+
+ggplot(swmp_data_toPlotPrecip, aes(x = date, y = value)) + 
+  facet_grid(param ~ station, scales='free_y') +
+  geom_vline(data = swmp_missing_toPlotPrecip, 
+             aes(xintercept = date, color = isWinter)) +
+  scale_color_manual(values = c(`TRUE` = '#e1edef', `FALSE` = '#c38728')) +
+  geom_point() +
+  theme_bw() +
+  xlab('Date') + ylab('Value') +
+  theme_bw() +
+  theme(strip.background = element_blank(),
+        strip.text = element_text(face='bold'))
