@@ -6,11 +6,12 @@
 
 # Set the working directory to wherever this script is located
 setwd("/Users/paul/Dropbox/Hanson/Teaching/955 2024")
+setwd("C:/Users/kreinl1/OneDrive/OneDrive - UW-Madison/GitHub/NSC-Catalyst-SWMP-Synthesis")
 
 # Identify the meteorological (met), nutrient (nut), and water quality (WQ) data files for your reserve
-metFile = "./APA/met_APA.csv"
-nutFile = "./APA/nut_APA.csv"
-wqFile  = "./APA/wq_APA.csv"
+metFile = "./APA/met_apa.csv"
+nutFile = "./APA/nut_apa.csv"
+wqFile  = "./APA/wq_apa.csv"
 
 # End user input section
 ###########################
@@ -32,9 +33,9 @@ uNut = unique(datNut$station)
 uWQ  = unique(datWQ$station)
 
 # Print out the unique stations for each data frame
-cat('Unique met stations: ',uMet,'\n')
-cat('Unique nut stations: ',uNut,'\n')
-cat('Unique WQ  stations: ',uWQ,'\n')
+cat('Unique met stations: ',uMet,'/n')
+cat('Unique nut stations: ',uNut,'/n')
+cat('Unique WQ  stations: ',uWQ,'/n')
 
 # Cycle through the met data and plot in natural order
 par(mfrow=c(3,1),lend=2,mai = c(0.25,0.75, 0.08, 0.05),oma = c(2,1,0.2,0.2), cex = 0.8)
