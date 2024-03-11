@@ -1,12 +1,28 @@
-0
+#install.packages("here")
+#install.packages("dplyr")
+#install.packages("reshape2")
+#install.packages("ggplot2")
+#install.packages("lubridate")
+
+library(here)
+library(dplyr)
+library(reshape2) 
+library (ggplot2)
+library(lubridate)
+library(SWMPr)
+library(EnvStats)
+library(trend)
+
+#Set your working directory
+
+##All files saved in the same github folder, including data downloaded from box
+here()
+wq_lks<-read.csv("LKS/wq_lks.csv")
+met_lks<-read.csv("LKS/met_lks.csv")
+nut_lks<-read.csv("LKS/nut_lks.csv")
 
 wq_lks_mean<-select(wq_lks,contains(c("station","year","month","mean")))
 met_lks_mean<-select(met_lks,contains(c("station","year","month","mean")))
-
-
-by(wq_lks_mean, wq_lks_mean$station, summary)
-by(met_lks_mean, met_lks_mean$station, summary)
-by(nut_lks, nut_lks$station, summary)
 
 
 
