@@ -31,6 +31,8 @@ stations_of_interest <- c('gb', 'sq') # Used for monthly data filtering
 swmp_data <- 
   # Load monthly meteo data
   load_swmp_monthly_data('input_data/met_grb.csv', reserve_abbr, c('gb', 'gl'), params_of_interest) %>% 
+  # Both have a data point for October 2005, so keep only the precip from GB on that date
+  filter(!(year == 2005 & month == 10 & station == 'gl')) %>% 
   # Make a new station name that shows it is combined
   # Because GB precip station ends in 2005 and then picks up as GL
   mutate(station = 'gb-gl') %>% 
