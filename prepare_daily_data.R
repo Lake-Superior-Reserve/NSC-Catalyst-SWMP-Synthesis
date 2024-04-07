@@ -1,4 +1,5 @@
 # Prepare daily data in format for plotting
+# Except that nutrients aren't available for daily timestep, so still monthly
 # Includes step that combines the precip data, even though 
 # it moved from GB-->GL in Oct 2005.
 

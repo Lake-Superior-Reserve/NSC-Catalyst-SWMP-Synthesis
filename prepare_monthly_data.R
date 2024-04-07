@@ -1,0 +1,44 @@
+# Prepare monthly data in format for plotting
+# Includes step that combines the precip data, even though 
+# it moved from GB-->GL in Oct 2005.
+
+load_swmp_monthly_data <- function(filename, reserve_abbr, stations_of_interest, col_prefix) {
+  read_csv(filename, show_col_types = FALSE) %>% 
+    # Keep only station & date columns plus those that 
+    # match one of the prefixes passed into the fxn
+    select(station, year, month, 
+           # This creates a regular expression that will search for 
+           # strings that *start* with any of the prefixes passed in
+           matches(sprintf('^(%s)', paste(col_prefix, collapse = '|')))) %>% 
+    # Get rid of any of the '_nValid' columns or censored (?) columns
+    select(-ends_with('nValid'), -ends_with('cens')) %>% 
+    # Pivot to long so we can combine
+    pivot_longer(-c(station, year, month), names_to = 'param') %>% 
+    # Add a new column that can be used to plot the monthly data as a time series
+    mutate(year_frac = year + month/12, .after = 'month') %>% 
+    # Fix the 'station' column to have just the 2-digit station code & then
+    # add the type of station as a separate column
+    mutate(station = gsub(reserve_abbr, '', station)) %>% 
+    separate(station, into = c('station', 'type'), sep = 2) %>% 
+    filter(station %in% c(stations_of_interest))
+}
+
+reserve_abbr <- 'grb'
+params_of_interest <- c('temp', 'turb', 'no23f', 'totprcp')
+stations_of_interest <- c('gb', 'sq') # Used for monthly data filtering
+
+# Read and then combine all data types together to get one big data frame
+swmp_data <- 
+  # Load monthly meteo data
+  load_swmp_monthly_data('input_data/met_grb.csv', reserve_abbr, c('gb', 'gl'), params_of_interest) %>% 
+  # Make a new station name that shows it is combined
+  # Because GB precip station ends in 2005 and then picks up as GL
+  mutate(station = 'gb-gl') %>% 
+  bind_rows(load_swmp_monthly_data('input_data/wq_grb.csv', reserve_abbr, stations_of_interest, params_of_interest)) %>% 
+  bind_rows(load_swmp_monthly_data('input_data/nut_grb.csv', reserve_abbr, stations_of_interest, params_of_interest)) %>% 
+  mutate(type = case_when(type == 'nut' ~ 'nutrient', 
+                          type == 'wq' ~ 'water quality',
+                          type == 'met' ~ 'meteo'))
+
+# Clean up environment since this is likely being sourced to load the data
+rm(reserve_abbr, params_of_interest, stations_of_interest, load_swmp_monthly_data)
