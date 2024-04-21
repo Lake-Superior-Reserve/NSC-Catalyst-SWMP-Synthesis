@@ -7,17 +7,18 @@
 library(here)
 library(dplyr)
 library(reshape2) 
-library (ggplot2)
+library(ggplot2)
 library(lubridate)
 library(SWMPr)
+library(readr)
 
 #Set your working directory
 
 ##All files saved in the same github folder, including data downloaded from box
 here()
-wq_lks<-read.csv("LKS/wq_lks.csv")
-met_lks<-read.csv("LKS/met_lks.csv")
-nut_lks<-read.csv("LKS/nut_lks.csv")
+wq_lks<-read_csv("input_data/wq_grb.csv")
+met_lks<-read_csv("input_data/met_grb.csv")
+nut_lks<-read_csv("input_data/nut_grb.csv")
 
 wq_lks_mean<-select(wq_lks,contains(c("station","year","month","mean")))
 met_lks_mean<-select(met_lks,contains(c("station","year","month","mean")))
@@ -69,7 +70,7 @@ ggplot(wq_lks_mean_subset,aes(x=Date,y=value))+
 
 ##Change the labels to the actual station names - can be found on CDMO
 wq_lks_mean_subset$station<-factor(wq_lks_mean_subset$station, 
-       labels=c("Barker's Island","Blatnik Bridge", "Oliver Bridge", "Pokegama Bay"))
+       labels=c("Great Bay","Lamprey River", "Oyster River", "Squamscott River"))
 
 ggplot(wq_lks_mean_subset,aes(x=Date,y=value))+
   geom_point()+
@@ -152,7 +153,7 @@ ggplot(nut_lks_long_subset,aes(x=Date,y=value))+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 nut_lks_long_subset$station<-factor(nut_lks_long_subset$station, 
-                                   labels=c("Barker's Island","Blatnik Bridge", "Oliver Bridge", "Pokegama Bay"))
+                                   labels=c("Great Bay","Lamprey River", "Oyster River", "Squamscott River"))
 
 ggplot(nut_lks_long_subset,aes(x=Date,y=value))+
   geom_point()+
@@ -197,6 +198,3 @@ ggplot(nut_lks_long_subset)+
   scale_x_date(date_breaks = "1 year", date_labels =  "%Y") +
   facet_wrap(station~variable,scales="free_y")+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-
-

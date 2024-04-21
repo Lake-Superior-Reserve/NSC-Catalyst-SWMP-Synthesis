@@ -4,6 +4,7 @@
 ###########################
 # Begin user input section
 
+<<<<<<< Updated upstream
 # Set the working directory to wherever this script is located
 setwd("/Users/paul/Dropbox/Hanson/Teaching/955 2024")
 setwd("C:/Users/kreinl1/OneDrive/OneDrive - UW-Madison/GitHub/NSC-Catalyst-SWMP-Synthesis")
@@ -12,6 +13,12 @@ setwd("C:/Users/kreinl1/OneDrive/OneDrive - UW-Madison/GitHub/NSC-Catalyst-SWMP-
 metFile = "./APA/met_apa.csv"
 nutFile = "./APA/nut_apa.csv"
 wqFile  = "./APA/wq_apa.csv"
+=======
+# Identify the meteorological (met), nutrient (nut), and water quality (WQ) data files for your reserve
+metFile = "input_data/met_grb.csv"
+nutFile = "input_data/nut_grb.csv"
+wqFile  = "input_data/wq_grb.csv"
+>>>>>>> Stashed changes
 
 # End user input section
 ###########################
@@ -65,7 +72,7 @@ for (i in 5:dim(datNut)[2]){
     # Cycle through the sites
     myXLim = c(min(datNut$YearFrac,na.rm=TRUE),max(datNut$YearFrac,na.rm=TRUE))
     myYLim = c(min(datNut[,i],na.rm=TRUE),max(datNut[,i],na.rm=TRUE))
-    if (is.infinite(myYLim)){ # In this case, there are no data and min/max produces Inf
+    if (any(is.infinite(myYLim))){ # In this case, there are no data and min/max produces Inf
       myYLim = c(0,0)
     }
     for (j in 1:length(uNut)){
@@ -94,7 +101,7 @@ for (i in 5:dim(datWQ)[2]){
     # Set the overall X and Y limits
     myXLim = c(min(datWQ$YearFrac,na.rm=TRUE),max(datWQ$YearFrac,na.rm=TRUE))
     myYLim = c(min(datWQ[,i],na.rm=TRUE),max(datWQ[,i],na.rm=TRUE))
-    if (is.infinite(myYLim)){ # In this case, there are no data and min/max produces Inf
+    if (any(is.infinite(myYLim))){ # In this case, there are no data and min/max produces Inf
       myYLim = c(0,0)
     }
     for (j in 1:length(uWQ)){ # For each unique site (uWQ), plot the water quality line
