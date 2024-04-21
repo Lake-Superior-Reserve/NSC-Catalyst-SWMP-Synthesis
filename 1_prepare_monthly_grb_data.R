@@ -40,7 +40,21 @@ swmp_data <-
   bind_rows(load_swmp_monthly_data('input_data/nut_grb.csv', reserve_abbr, stations_of_interest, params_of_interest)) %>% 
   mutate(type = case_when(type == 'nut' ~ 'nutrient', 
                           type == 'wq' ~ 'water quality',
-                          type == 'met' ~ 'meteo'))
+                          type == 'met' ~ 'meteo')) %>% 
+  # Only keep the median values for temp and turb + NO23f + precip
+  filter(!grepl('_max|_mean|_min|_sd|_iqr', param)) %>% 
+  # Add an ordered factor for station names to make wrapped plots appear better aligned
+  mutate(stationf = factor(station, levels = c('gb', 'sq', 'gb-gl'), 
+                           labels = c('Great Bay', 'Squamscott', 'GB Weather Stn'),
+                           ordered = TRUE),
+         paramf = factor(param, levels = c('no23f', 'temp_median', 'turb_median', 'totprcp_total'), 
+                         labels = c('Nitrate/Nitrite (mg/L)', 'Temperature (deg C)',
+                                    'Turbidity (NTU)', 'Precipitation (mm)'),
+                         ordered = TRUE)) %>% 
+  mutate(station_param = sprintf('%s, %s', stationf, paramf),
+         station_param_f = factor(station_param, ordered = TRUE,
+                                  # Reorder so that the GB Weather Stn appears last
+                                  levels = sort(levels(interaction(stationf, paramf, sep = ", ", drop = T)))[c(2:7, 1)]))
 
 # Clean up environment since this is likely being sourced to load the data
 rm(reserve_abbr, params_of_interest, stations_of_interest, load_swmp_monthly_data)
