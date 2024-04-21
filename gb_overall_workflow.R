@@ -3,6 +3,7 @@
 # April 2024
 
 # Load library dependencies
+library(scico) # For "perceptually uniform and colorblind safe" palettes
 library(tidyverse)
 
 ##### 1 Data loading / preparing #####
@@ -18,7 +19,13 @@ print(missing_data_figure) # Print out the missing data figure
 
 ###### 2B Basic time series with loess smoothing ######
 
+source('2B_explore_overall_ts.R')
+print(overall_ts_figure) # Print out the overall time series figure
+
 ###### 2C Basic time series with loess smoothing by month ######
+
+source('2C_explore_seasonal_ts.R')
+print(seasonal_ts_figure_list) # Print out the seasonal time series figures
 
 ##### 3 Scales of variability #####
 
