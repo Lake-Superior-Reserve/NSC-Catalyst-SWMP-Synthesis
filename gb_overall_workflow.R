@@ -14,6 +14,9 @@ source('1_prepare_monthly_grb_data.R')
 ###### 2A Time series gaps ######
 
 ###### 2B Site maps ######
+source('2A_explore_data_gaps.R')
+print(missing_data_figure) # Print out the missing data figure
+
 
 ##### 3 Scales of variability #####
 
