@@ -3,7 +3,7 @@
 # it moved from GB-->GL in Oct 2005.
 
 load_swmp_monthly_data <- function(filename, reserve_abbr, stations_of_interest, col_prefix) {
-  read_csv(filename, show_col_types = FALSE) %>% 
+  suppressMessages(read_csv(filename, show_col_types = FALSE)) %>% 
     # Keep only station & date columns plus those that 
     # match one of the prefixes passed into the fxn
     select(station, year, month, 
