@@ -13,10 +13,12 @@ source('1_prepare_monthly_grb_data.R')
 
 ###### 2A Time series gaps ######
 
-###### 2B Site maps ######
 source('2A_explore_data_gaps.R')
 print(missing_data_figure) # Print out the missing data figure
 
+###### 2B Basic time series with loess smoothing ######
+
+###### 2C Basic time series with loess smoothing by month ######
 
 ##### 3 Scales of variability #####
 
