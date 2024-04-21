@@ -5,10 +5,9 @@
 # Load library dependencies
 library(tidyverse)
 
-# Load local functions
-source()
-
 ##### 1 Data loading / preparing #####
+
+source('1_prepare_monthly_grb_data.R')
 
 ##### 2 Data exploration and visual validation #####
 
