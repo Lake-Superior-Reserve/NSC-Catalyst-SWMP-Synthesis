@@ -13,12 +13,9 @@
 #This code uses data from Lake Superior Reserve. This folder has been updated to the
 #repo. Code showing how data was split out for Reserves is in 'Data Processing'. 
 
-#Install required packages if not already installed
-#install.packages("here")
-#install.packages("dplyr")
-#install.packages("reshape2")
-#install.packages("ggplot2")
-#install.packages("lubridate")
+#####################################################################################
+# Install necessary packages 
+# install.packages("package name")
 
 # Load necessary libraries
 library(here)       # For setting working directories
