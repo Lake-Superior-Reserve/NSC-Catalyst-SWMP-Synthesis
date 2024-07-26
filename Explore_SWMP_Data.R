@@ -4,10 +4,14 @@
 #Author(s): Dr. Kait Reinl; kreinl@wisc.edu
 #Lake Superior National Estuarine Research Reserve, UW-Madison Division of Extension
 
-#Data has been downloaded from NERRS CDMO: https://cdmo.baruch.sc.edu/ and compiled into
-#csvs using code from https://github.com/Lake-Superior-Reserve/WQ_SWMP_Synthesis/tree/main/R/Data_processing
+#Data originated from NERRS CDMO: https://cdmo.baruch.sc.edu/ and 
+#Data was compiled into csvs for all Reservesusing code from 
+#https://github.com/Lake-Superior-Reserve/WQ_SWMP_Synthesis/tree/main/R/Data_processing
 #This repo is currently private until analyses are complete, but will be made public after
-#publication. Examples data from LKS are uploaded to this repo. 
+#publication. 
+
+#This code uses data from Lake Superior Reserve. This folder has been updated to the
+#repo. Code showing how data was split out for Reserves is in 'Data Processing'. 
 
 #Install required packages if not already installed
 #install.packages("here")
