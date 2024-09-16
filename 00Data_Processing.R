@@ -1,8 +1,27 @@
+#Title: Data Processing
+#Project: NSC SWMP Synthesis Catalyst Class
+#Funding: NERRS Science Collaborative
+#Author(s): Dr. Kait Reinl; kreinl@wisc.edu
+#Lake Superior National Estuarine Research Reserve, UW-Madison Division of Extension
+
+
+#Data originated from NERRS CDMO: https://cdmo.baruch.sc.edu/ and compiled into
+#csvs using code from https://github.com/Lake-Superior-Reserve/WQ_SWMP_Synthesis/tree/main/R/Data_processing
+#This repo is currently private until analyses are complete, but will be made public after
+#publication. This code shows how data was split for each Reserve from the compiled .csvs
+#obstained using the repo above. 
+
+#####################################################################################
+# Install necessary packages 
+# install.packages("package name")
+
 library(here)
 library(dplyr)
 library(reshape2) 
 library (ggplot2)
 
+# Set your working directory - there are a number of methods, but you can simply click
+# "Session>Set working directory>To Source File Location"
 
 here()
 WQ_all<-read.csv("Data/SWMP_monthlyWQ.csv")
