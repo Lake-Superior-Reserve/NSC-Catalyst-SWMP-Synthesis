@@ -81,7 +81,7 @@ plot(myTS)
 # Decompose timeseries into trend, seasonal, and random components
 myTSdecomposed = decompose(myTS)
 # Plot the decomposed timeseries
-plot(decompose(myTS))
+plot(decompose(myTS)) 
 
 # Plot the autocorrelation function (ACF) for the trend component of the decomposed time series
 # Interpretation: The ACF plot for the trend shows how strongly the current value is correlated
